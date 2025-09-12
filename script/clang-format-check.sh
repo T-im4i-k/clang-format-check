@@ -53,7 +53,7 @@ done
 CLANG_FORMAT_FILE_EXTENSIONS=$(remove_spaces_around_commas "$CLANG_FORMAT_FILE_EXTENSIONS")
 FILE_EXTENSIONS_REGEX="${CLANG_FORMAT_FILE_EXTENSIONS//,/|}"
 
-FILES_TO_CHECK=$(find "${DIR_ARRAY[@]}" -regextype posix-extended -regex ".*($FILE_EXTENSIONS_REGEX)$")
+FILES_TO_CHECK=$(find "${DIR_ARRAY[@]}" -type f -regextype posix-extended -regex ".*\.($FILE_EXTENSIONS_REGEX)$")
 
 function print_delim() {
 	printf -- "---\n"
