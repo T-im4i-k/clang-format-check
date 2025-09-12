@@ -1,0 +1,59 @@
+name: Clang Format Check
+description: Checks C++ code formatting with clang-format
+author: T-im4i-k
+
+inputs:
+  version:
+    description: Version of clang-format to use
+    type: string
+    required: false
+    default: '18'
+
+  directories:
+    description: Comma-separated list of directories to check
+    type: string
+    required: true
+
+  file-extensions:
+    description: Comma-separated list of file extensions to check
+    type: string
+    required: false
+    default: 'cpp,hpp,c,h'
+
+  style:
+    description: Style used by clang-format
+    type: string
+    required: false
+    default: 'file'
+
+  werror:
+    description: Whether to treat clang-format warnings as errors
+    type: boolean
+    required: false
+    default: true
+
+  extra-args:
+    description: Extra clang-format arguments
+    type: string
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install clang-format
+      shell: bash
+      run: |
+        sudo apt-get update && \
+        sudo apt-get install clang-format-"${{inputs.version}}"
+
+    - name: Check code formatting
+      shell: bash
+      run: bash "${{github.action_path}}/script/clang-format-check.sh"
+      env:
+        CLANG_FORMAT_VERSION: "${{inputs.version}}"
+        CLANG_FORMAT_DIRECTORIES: "${{inputs.directories}}"
+        CLANG_FORMAT_FILE_EXTENSIONS: "${{inputs.file-extensions}}"
+        CLANG_FORMAT_STYLE: "${{inputs.style}}"
+        CLANG_FORMAT_WERROR: "${{inputs.werror}}"
+        CLANG_FORMAT_EXTRA_ARGS: "${{inputs.extra-args}}"
