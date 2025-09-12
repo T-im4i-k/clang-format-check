@@ -1,0 +1,42 @@
+name: Test clang-format-check Action
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test-on-formatted-code:
+    runs-on: [ ubuntu-latest ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Run clang-format-check action on formatted code
+        uses: ./
+        with:
+          directories: "test/formatted_code"
+
+  test-on-unformatted-code:
+    runs-on: [ ubuntu-latest ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Run clang-format-check action on unformatted code
+        id: clang-format-check-unformatted-code
+        uses: ./
+        continue-on-error: true
+        with:
+          directories: "test/unformatted_code"
+
+      - name: Verify last step fail
+        shell: bash
+        run: |
+          if [ "${{steps.clang-format-check-unformatted-code.outcome}}" != "failure" ]; then
+            printf "Error: expected clang-format-check-unformatted-code step to fail\n"
+            exit 1
+          fi
