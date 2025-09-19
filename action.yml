@@ -4,36 +4,36 @@ author: T-im4i-k
 
 inputs:
   version:
-    description: Version of clang-format to use
+    description: Specifies the clang-format version to use.
     type: string
     required: false
     default: '18'
 
   directories:
-    description: Comma-separated list of directories to check
+    description: Comma-separated list of directories to recursively scan for files.
     type: string
     required: true
 
   file-extensions:
-    description: Comma-separated list of file extensions to check
+    description: Comma-separated list of file extensions to include in the formatting check.
     type: string
     required: false
     default: 'cpp,hpp,c,h'
 
   style:
-    description: Style used by clang-format
+    description: Formatting style used by clang-format.
     type: string
     required: false
     default: 'file'
 
   werror:
-    description: Whether to treat clang-format warnings as errors
+    description: Whether to treat formatting violations as errors, causing the action to fail.
     type: boolean
     required: false
     default: true
 
   extra-args:
-    description: Extra clang-format arguments
+    description: Additional arguments to pass directly to clang-format.
     type: string
     required: false
     default: ''
